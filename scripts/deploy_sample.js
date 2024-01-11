@@ -1,0 +1,28 @@
+const {ethers} = require("hardhat");
+async function main(){
+    const [deployer] = await ethers.getSigners()
+    console.log(`Deploying contracts with the account: ${deployer.address}`);
+
+    const Storage = await ethers.getContractFactory("StorageContract")   // 0xBd7D38071Ec906Eb448C4c7D5eAF90a045cf2858
+    const storage = await Storage.deploy()
+    await storage.waitForDeployment();
+
+    console.log(`Storage contract deployed to : ${await storage.getAddress()}`);
+
+
+    const Project = await ethers.getContractFactory("ProjectContract")  // 0x67Fab672DF722E2197b424F9a64B800E2A054026
+    const project = await Project.deploy(deployer.address)
+    await project.waitForDeployment();
+
+    console.log(`Project contract deployed to : ${await project.getAddress()}`);
+}
+
+main()
+     .then(()=> process.exit(0))
+     .catch(error=>{
+         console.info("check")
+         console.log(error)
+         process.exit(1)
+     })
+
+
