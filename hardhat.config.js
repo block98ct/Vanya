@@ -122,8 +122,10 @@ const config = {
       },
       optimizer: {
         enabled: true,
-        runs: 150,
+        runs: 200,
       },
+      viaIR: true,
+
     },
   },
   typechain: {
@@ -132,7 +134,8 @@ const config = {
   },
   sourcify: {
     enabled: false
-  }
+  },
+  
   
 };
 

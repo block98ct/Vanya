@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@openzeppelin/hardhat-upgrades": "^3.0.2",
-    "hardhat": "^2.19.4"
+    "hardhat": "^2.20.1"
   }
 }

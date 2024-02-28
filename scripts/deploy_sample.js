@@ -26,3 +26,5 @@ main()
      })
 
 
+// npx hardhat run --network sepolia scripts/deploy_storage.ts
+// npx hardhat verify --network sepolia "address"
