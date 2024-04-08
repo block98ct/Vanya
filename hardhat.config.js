@@ -28,7 +28,10 @@ const chainIds = {
   "optimism-mainnet": 10,
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
-  sepolia: 11155111
+  sepolia: 11155111,
+  "kyoto-testnet":1998,
+  "aurora-testnet": 1313161555,
+  "aurora-mainnet": 1313161554
 
 };
 
@@ -43,7 +46,17 @@ function getChainConfig(chain) {
     case "bsc":
       jsonRpcUrl = "https://bsc-dataseed1.binance.org";
       break;
-                                             
+
+    case "aurora-testnet":
+       jsonRpcUrl="https://testnet.aurora.dev";
+       break;
+    case "aurora-mainnnet":
+      jsonRpcUrl= "https://mainnet.aurora.dev";
+      break;
+
+    case "kyoto-testnet":
+      jsonRpcUrl = `https://rpc.testnet.kyotoprotocol.io:8545`
+      break;                                           
     default:
    
       jsonRpcUrl= `https://${chain}.infura.io/v3/${infuraApiKey}`
@@ -62,8 +75,9 @@ function getChainConfig(chain) {
   };
 }
 
-const network =
+const network =  
   process.env.TESTING === "true" ? "hardhat" : process.env.DEPLOY_NETWORK || "sepolia";
+
 
 const config = {
   defaultNetwork: network,
@@ -77,7 +91,6 @@ const config = {
       polygon: process.env.POLYGONSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
       sepolia: process.env.ETHERSCAN_API_KEY
-     
      
 
     },
@@ -103,7 +116,11 @@ const config = {
     mainnet: getChainConfig("mainnet"),
     optimism: getChainConfig("optimism-mainnet"),
     "polygon-mainnet": getChainConfig("polygon-mainnet"),
-    "polygon-mumbai": getChainConfig("polygon-mumbai"),
+    "polygon-mumbai": getChainConfig("polygon-mumbai"),  
+    "kyoto-testnet": getChainConfig("kyoto-testnet"),
+    "aurora-testnet": getChainConfig("aurora-testnet"),
+    "aurora-mainnet": getChainConfig("aurora-mainnet"),
+
     sepolia: getChainConfig("sepolia")
   
   
@@ -135,7 +152,6 @@ const config = {
   sourcify: {
     enabled: false
   },
-  
   
 };
 

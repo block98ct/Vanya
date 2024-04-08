@@ -18,23 +18,21 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import "./project.sol";
 
 contract StorageContract is Initializable, OwnableUpgradeable {
-    address private projectOwner;
     function initialize() public initializer {
         __Ownable_init(_msgSender());
-     projectOwner = 0x4F02C3102A9D2e1cC0cC97c7fE2429B9B6F5965D;
     }
 
     // Mapping to store project contracts
     mapping(address => bool) public isProjectContract;
 
     // Event to log the creation of a new project
-    event ProjectCreated(address indexed projectContract);
+    event ProjectCreated(address indexed projectContract, address indexed owner);
 
     // Function to create a new project
     function createProject() public {
         ProjectContract newProject = new ProjectContract();
-        newProject.initialize(projectOwner);
+        newProject.initialize(msg.sender);
         isProjectContract[address(newProject)] = true;
-        emit ProjectCreated(address(newProject));
+        emit ProjectCreated(address(newProject), msg.sender);
     }
 }

@@ -11,7 +11,7 @@ async function main(){
 
 
     const Project = await ethers.getContractFactory("ProjectContract")  // 0x67Fab672DF722E2197b424F9a64B800E2A054026
-    const project = await Project.deploy(deployer.address)
+    const project = await Project.deploy()
     await project.waitForDeployment();
 
     console.log(`Project contract deployed to : ${await project.getAddress()}`);
@@ -28,3 +28,4 @@ main()
 
 // npx hardhat run --network sepolia scripts/deploy_storage.ts
 // npx hardhat verify --network sepolia "address"
+//npx hardhat verify --network kyoto 0xEA3b360bedf5cd9262bD73394C847D9599430843

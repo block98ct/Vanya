@@ -1,3 +1,13 @@
+//  /$$    /$$  /$$$$$$  /$$   /$$ /$$     /$$ /$$$$$$
+// | $$   | $$ /$$__  $$| $$$ | $$|  $$   /$$//$$__  $$
+// | $$   | $$| $$  \ $$| $$$$| $$ \  $$ /$$/| $$  \ $$
+// |  $$ / $$/| $$$$$$$$| $$ $$ $$  \  $$$$/ | $$$$$$$$
+//  \  $$ $$/ | $$__  $$| $$  $$$$   \  $$/  | $$__  $$
+//   \  $$$/  | $$  | $$| $$\  $$$    | $$   | $$  | $$
+//    \  $/   | $$  | $$| $$ \  $$    | $$   | $$  | $$
+//     \_/    |__/  |__/|__/  \__/    |__/   |__/  |__/
+
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -28,7 +38,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string ndvi;
         string carbon;
         string npar;
-        uint256 timestamp;
+        uint256 createdAt;
         string par;
         string kmlLink;
         string geoJsonLink;
@@ -87,14 +97,13 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string memory _landDeveloper,
         string memory _projectStoryImage,
         string memory _projectType,
-        uint256 _updatedAt,
         string memory _carbonCredits,
         string memory _amountWorth,
         string memory _productName
     ) external {
         projectId++;
         require(projectId > 0, "Project ID must be greater than zero");
-        require(projectData[projectId].timestamp == 0, "Project data does not exist for this user and project ID");
+        require(projectData[projectId].createdAt == 0, "Project data  already exists for this user and project ID");
 
         projectData[projectId] = ProjectData(
             _latitude,
@@ -114,7 +123,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
             _landDeveloper,
             _projectStoryImage,
             _projectType,
-            _updatedAt,
+            0,
             _carbonCredits,
             _amountWorth,
             _productName
@@ -144,13 +153,13 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string memory _landDeveloper,
         string memory _projectStoryImage,
         string memory _projectType,
-        uint256 _updatedAt,
         string memory _carbonCredits,
         string memory _amountWorth,
         string memory _productName
     ) external onlyOwner {
         require(_projectId > 0, "Project ID must be greater than zero");
-        require(projectData[_projectId].timestamp > 0, "Project data does not exist for this user and project ID");
+        require(projectData[_projectId].createdAt > 0, "Project data does not exist for this user and project ID");
+        uint256 createdAt = projectData[_projectId].createdAt;
 
         projectData[_projectId] = ProjectData(
             _latitude,
@@ -161,7 +170,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
             _ndvi,
             _carbon,
             _npar,
-            block.timestamp,
+            createdAt,
             _par,
             _kmlLink,
             _geoJsonLink,
@@ -170,7 +179,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
             _landDeveloper,
             _projectStoryImage,
             _projectType,
-            _updatedAt,
+            block.timestamp,
             _carbonCredits,
             _amountWorth,
             _productName
