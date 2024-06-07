@@ -7,7 +7,6 @@
 //    \  $/   | $$  | $$| $$ \  $$    | $$   | $$  | $$
 //     \_/    |__/  |__/|__/  \__/    |__/   |__/  |__/
 
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -33,29 +32,23 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string latitude;
         string longitude;
         string projectAddress;
-        string details;
         string area;
         string ndvi;
         string carbon;
         string npar;
-        uint256 createdAt;
         string par;
         string kmlLink;
         string geoJsonLink;
-        string projectDescription;
-        string firstImageLink;
-        string landDeveloper;
-        string projectStoryImage;
         string projectType;
-        uint256 updatedAt;
         string carbonCredits;
         string amountWorth;
-        string productName;
+        uint256 updatedAt;
+        uint256 createdAt;
     }
 
     /************** MAPPINGS  ***********/
 
-    // Mapping to store project data for each user and project ID
+    // Mapping to store project data for each project ID
     mapping(uint256 => ProjectData) public projectData;
 
     // Mapping to store carbon estimation with each timestamp
@@ -70,21 +63,16 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
     event CertificateIssued(address indexed owner, uint256 indexed tokenId);
 
     // Event to log the addition of project data
-    event ProjectDataAdded(
-        uint256 indexed projectId
-    );
+    event ProjectDataAdded(uint256 indexed projectId);
 
     // Event to log the modification of project data
-    event ProjectDataModified(
-        uint256 indexed projectId
-    );
+    event ProjectDataModified(uint256 indexed projectId);
 
     // Function to add project data
     function addProjectData(
         string memory _latitude,
         string memory _longitude,
         string memory _projectAddress,
-        string memory _details,
         string memory _area,
         string memory _ndvi,
         string memory _carbon,
@@ -92,41 +80,31 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string memory _par,
         string memory _kmlLink,
         string memory _geoJsonLink,
-        string memory _projectDescription,
-        string memory _firstImageLink,
-        string memory _landDeveloper,
-        string memory _projectStoryImage,
         string memory _projectType,
         string memory _carbonCredits,
-        string memory _amountWorth,
-        string memory _productName
+        string memory _amountWorth
+              
     ) external {
         projectId++;
         require(projectId > 0, "Project ID must be greater than zero");
-        require(projectData[projectId].createdAt == 0, "Project data  already exists for this user and project ID");
+        require(projectData[projectId].createdAt == 0, "Project data already exists for this project ID");
 
         projectData[projectId] = ProjectData(
             _latitude,
             _longitude,
             _projectAddress,
-            _details,
             _area,
             _ndvi,
             _carbon,
             _npar,
-            block.timestamp,
             _par,
             _kmlLink,
             _geoJsonLink,
-            _projectDescription,
-            _firstImageLink,
-            _landDeveloper,
-            _projectStoryImage,
             _projectType,
-            0,
             _carbonCredits,
             _amountWorth,
-            _productName
+            0,
+            block.timestamp
         );
 
         carbonData[block.timestamp] = _carbon;
@@ -140,7 +118,6 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string memory _latitude,
         string memory _longitude,
         string memory _projectAddress,
-        string memory _details,
         string memory _area,
         string memory _ndvi,
         string memory _carbon,
@@ -148,41 +125,30 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         string memory _par,
         string memory _kmlLink,
         string memory _geoJsonLink,
-        string memory _projectDescription,
-        string memory _firstImageLink,
-        string memory _landDeveloper,
-        string memory _projectStoryImage,
         string memory _projectType,
         string memory _carbonCredits,
-        string memory _amountWorth,
-        string memory _productName
+        string memory _amountWorth
     ) external onlyOwner {
         require(_projectId > 0, "Project ID must be greater than zero");
-        require(projectData[_projectId].createdAt > 0, "Project data does not exist for this user and project ID");
-        uint256 createdAt = projectData[_projectId].createdAt;
+        require(projectData[_projectId].createdAt > 0, "Project data does not exist for this project ID");
+        uint256 createdAtTime = projectData[_projectId].createdAt;
 
         projectData[_projectId] = ProjectData(
             _latitude,
             _longitude,
             _projectAddress,
-            _details,
             _area,
             _ndvi,
             _carbon,
             _npar,
-            createdAt,
             _par,
             _kmlLink,
             _geoJsonLink,
-            _projectDescription,
-            _firstImageLink,
-            _landDeveloper,
-            _projectStoryImage,
             _projectType,
-            block.timestamp,
             _carbonCredits,
             _amountWorth,
-            _productName
+            block.timestamp,
+            createdAtTime
         );
 
         carbonData[block.timestamp] = _carbon;

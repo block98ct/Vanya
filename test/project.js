@@ -2,9 +2,6 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { ABI } = require("../ABI/project.json");
 
-// import expect from chai
-//const ethers = require('eth')
-
 const addr = "0x4F02C3102A9D2e1cC0cC97c7fE2429B9B6F5965D";
 const addr1 = "0xb178512aA2C4D0c3C43a12c7b7C2d1465fe298A5";
 
@@ -63,8 +60,6 @@ describe("Unit testing of project contract", async function () {
 
     expect(ownerAfter).to.equal(addr1);
   });
-
-
 
   it("it should add project data ", async () => {
     var tx = await project
@@ -135,6 +130,8 @@ describe("Unit testing of project contract", async function () {
       res.amountWorth,
       res.productName
     );
+    expect(res.createdAt).not.equal(0)
+    expect(res.updatedAt).to.equal(0)
   });
 
   it("it should give certificate as NFT", async () => {
@@ -145,7 +142,7 @@ describe("Unit testing of project contract", async function () {
     var tx = await project
       .connect(owner)
       .issueCertificate(addr1, projectId, url);
-      
+
     var txn = await tx.wait();
     var nftOwner = await project.ownerOf(projectId);
 
@@ -189,33 +186,71 @@ describe("Unit testing of project contract", async function () {
     // console.log("resTx -------->", resTx)
   });
 
+  it("it should update the projectdata ", async () => {
+    var tx = await project
+      .connect(user)
+      .addProjectData(
+        latitude,
+        longitude,
+        projectAddress,
+        details,
+        area,
+        ndvi,
+        carbon,
+        npar,
+        par,
+        kmlLink,
+        geoJsonLink,
+        projectDescription,
+        firstImageLink,
+        landDeveloper,
+        projectStoryImage,
+        projectType,
+        carbonCredits,
+        amountWorth,
+        productName
+      );
+
+    var txn = await tx.wait();
+    var logs = txn.logs;
+
+    var events = logs.map((log) => {
+      return project.interface.parseLog(log);
+    });
+
+    var projectCreatedEvents = events.filter((event) => {
+      return event.name === "ProjectDataAdded";
+    });
+    var projectCreatedEvent = projectCreatedEvents[0];
+    var projectId = projectCreatedEvent.args.projectId;
+
+    var tx = await project
+      .connect(owner)
+      .updateProjectData(
+        projectId,
+        latitude,
+        longitude,
+        projectAddress,
+        details,
+        area,
+        ndvi,
+        carbon,
+        npar,
+        par,
+        kmlLink,
+        geoJsonLink,
+        projectDescription,
+        firstImageLink,
+        landDeveloper,
+        projectStoryImage,
+        projectType,
+        carbonCredits,
+        amountWorth,
+        productName
+      );
 
 
-  // it("it should transfer the nft ", async () => {
-  //   var tx = await project
-  //     .connect(owner)
-  //     .issueCertificate(addr, projectId, url);
-  //   var txn = await tx.wait();
+      var txn = await tx.wait()
 
-  //   var ownerBefore = await project.ownerOf(projectId);
-  //   expect(ownerBefore).to.equal(addr);
-
-
-  //   var tx1 = await project.connect().approve(addr1, 1)
-  //   var txn1 = await tx1.wait()
-  //    console.log("approve ----->", txn1);
-
-
-  //   var tx2 = await project.connect(addr).transferFrom(addr, addr, 1)
-  //   var txn2 = await tx2.wait()
-  //   console.log("txn1 ---------->", txn);
-
-  //   var ownerAfter = await project.ownerOf(projectId);
-  //   expect(ownerAfter).to.equal(addr)
-
-
-
-  // });
-
-
+  });
 });

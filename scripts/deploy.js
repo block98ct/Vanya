@@ -25,7 +25,10 @@ main()
          process.exit(1)
      })
 
-
 // npx hardhat run --network sepolia scripts/deploy_storage.ts
 // npx hardhat verify --network sepolia "address"
 //npx hardhat verify --network kyoto 0xEA3b360bedf5cd9262bD73394C847D9599430843
+
+
+// npx hardhat run --network sepolia scripts/deploy_upgrade.js
+

@@ -1,7 +1,11 @@
 const {ethers, upgrades} = require("hardhat");
 async function main(){
     const [deployer] = await ethers.getSigners()
+    const balance = await ethers.provider.getBalance(deployer.address);
+
+
     console.log(`Deploying contracts with the account: ${deployer.address}`);
+    console.log(`The balance of account: ${balance}`);
 
     const Storage = await ethers.getContractFactory("StorageContract")   // 0xcB15d729a91Df72b02D0E8F4EAA0C805dD7a0FeF 0xc48d7120623C66A36654c36F77B6796ea9A64540
     const storage = await upgrades.deployProxy(Storage, [])              //  0xc76F5C194AB0B2C6CE3A1f8891AC9580B4356cfC
@@ -49,8 +53,15 @@ main()
 
 
 // SEPOLIA NETWORK 
-// Storage contract deployed to:  impl 0xa15f03A8b22E980B62f416aC39e639652a691520  proxy 0xD3CFB4e354912c7F18f7Ed82F9ee23Dca8b68108
-// Project contract deployed to :  impl 0xe29F6eD5B743F6368c4Dea92Ad67d01eB2d91869  proxy 0xC4fa11FDDd34e8Ba71F01A1a654c0C13345B363A
+
+// Storage contract deployed to:  
+//impl 0xa15f03A8b22E980B62f416aC39e639652a691520  proxy 0xD3CFB4e354912c7F18f7Ed82F9ee23Dca8b68108 
+//impl 0x0Bf702aDD8dAD990aDc35D9724d66BC0ed4C3799 proxy 0x0D2A56c9C4CF20F62c18A88111CfE2434163bC55
 
 
+// Project contract deployed to :  
+//impl 0xe29F6eD5B743F6368c4Dea92Ad67d01eB2d91869  proxy 0xC4fa11FDDd34e8Ba71F01A1a654c0C13345B363A 
+//impl 0xc728611b4459A49BCd55282C2938C4089cB2F422 proxy 0x674aE49f9499764E3e516d3A3a22Fa60388Cc30E
 
+
+   

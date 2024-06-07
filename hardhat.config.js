@@ -29,6 +29,7 @@ const chainIds = {
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
   sepolia: 11155111,
+  holesky: 17000,
   "kyoto-testnet":1998,
   "aurora-testnet": 1313161555,
   "aurora-mainnet": 1313161554
@@ -75,6 +76,7 @@ function getChainConfig(chain) {
   };
 }
 
+
 const network =  
   process.env.TESTING === "true" ? "hardhat" : process.env.DEPLOY_NETWORK || "sepolia";
 
@@ -90,7 +92,8 @@ const config = {
       optimisticEthereum: process.env.OPTIMISM_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
-      sepolia: process.env.ETHERSCAN_API_KEY
+      sepolia: process.env.ETHERSCAN_API_KEY,
+      holesky: process.env.ETHERSCAN_API_KEY
      
 
     },
@@ -120,8 +123,9 @@ const config = {
     "kyoto-testnet": getChainConfig("kyoto-testnet"),
     "aurora-testnet": getChainConfig("aurora-testnet"),
     "aurora-mainnet": getChainConfig("aurora-mainnet"),
+     sepolia: getChainConfig("sepolia"),
+     holesky: getChainConfig("holesky")
 
-    sepolia: getChainConfig("sepolia")
   
   
   },
