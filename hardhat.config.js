@@ -1,13 +1,9 @@
+require("dotenv/config");
+require("@nomicfoundation/hardhat-toolbox");
+require("@openzeppelin/hardhat-upgrades");
 
-
-require('dotenv/config')
-require('@nomicfoundation/hardhat-toolbox')
-require('@openzeppelin/hardhat-upgrades')
-
-require('hardhat-gas-reporter')
+require("hardhat-gas-reporter");
 /** @type import('hardhat/config').HardhatUserConfig */
-
-
 
 const mnemonic = process.env.MNEMONIC;
 if (!mnemonic) {
@@ -27,43 +23,37 @@ const chainIds = {
   mainnet: 1,
   "optimism-mainnet": 10,
   "polygon-mainnet": 137,
-  "polygon-mumbai": 80001,
+  "polygon-amoy": 80002,
   sepolia: 11155111,
   holesky: 17000,
-  "kyoto-testnet":1998,
+  "kyoto-testnet": 1998,
   "aurora-testnet": 1313161555,
-  "aurora-mainnet": 1313161554
-
+  "aurora-mainnet": 1313161554,
 };
 
 function getChainConfig(chain) {
   let jsonRpcUrl = "";
 
   switch (chain) {
-  
     case "avalanche":
-      jsonRpcUrl = "https://api.avax.network/ext/bc/C/rpc";   
+      jsonRpcUrl = "https://api.avax.network/ext/bc/C/rpc";
       break;
     case "bsc":
       jsonRpcUrl = "https://bsc-dataseed1.binance.org";
       break;
 
     case "aurora-testnet":
-       jsonRpcUrl="https://testnet.aurora.dev";
-       break;
+      jsonRpcUrl = "https://testnet.aurora.dev";
+      break;
     case "aurora-mainnnet":
-      jsonRpcUrl= "https://mainnet.aurora.dev";
+      jsonRpcUrl = "https://mainnet.aurora.dev";
       break;
 
     case "kyoto-testnet":
-      jsonRpcUrl = `https://rpc.testnet.kyotoprotocol.io:8545`
-      break;                                           
+      jsonRpcUrl = `https://rpc.testnet.kyotoprotocol.io:8545`;
+      break;
     default:
-   
-      jsonRpcUrl= `https://${chain}.infura.io/v3/${infuraApiKey}`
-   
-
-     
+      jsonRpcUrl = `https://${chain}.infura.io/v3/${infuraApiKey}`;
   }
   return {
     accounts: {
@@ -76,27 +66,35 @@ function getChainConfig(chain) {
   };
 }
 
-
-const network =  
-  process.env.TESTING === "true" ? "hardhat" : process.env.DEPLOY_NETWORK || "sepolia";
-
+const network =
+  process.env.TESTING === "true"
+    ? "hardhat"
+    : process.env.DEPLOY_NETWORK || "sepolia";
 
 const config = {
   defaultNetwork: network,
   etherscan: {
     apiKey: {
-      arbitrumOne: process.env.ARBISCAN_API_KEY || "",  
+      arbitrumOne: process.env.ARBISCAN_API_KEY || "",
       avalanche: process.env.SNOWTRACE_API_KEY || "",
       bsc: process.env.BSCSCAN_API_KEY || "",
       mainnet: process.env.ETHERSCAN_API_KEY || "",
       optimisticEthereum: process.env.OPTIMISM_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
-      polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
+      "polygon-amoy": process.env.POLYGONSCAN_API_KEY || "",
       sepolia: process.env.ETHERSCAN_API_KEY,
-      holesky: process.env.ETHERSCAN_API_KEY
-     
-
+      holesky: process.env.ETHERSCAN_API_KEY,
     },
+    customChains: [
+      {
+        network: "polygon-amoy",
+        chainId: 80002,
+        urls: {
+          apiURL: `https://api-amoy.polygonscan.com/api`,
+          browserURL: `https://polygonscan.com/`,
+        },
+      },
+    ],
   },
   gasReporter: {
     currency: "USD",
@@ -119,15 +117,12 @@ const config = {
     mainnet: getChainConfig("mainnet"),
     optimism: getChainConfig("optimism-mainnet"),
     "polygon-mainnet": getChainConfig("polygon-mainnet"),
-    "polygon-mumbai": getChainConfig("polygon-mumbai"),  
+    "polygon-amoy": getChainConfig("polygon-amoy"),
     "kyoto-testnet": getChainConfig("kyoto-testnet"),
     "aurora-testnet": getChainConfig("aurora-testnet"),
     "aurora-mainnet": getChainConfig("aurora-mainnet"),
-     sepolia: getChainConfig("sepolia"),
-     holesky: getChainConfig("holesky")
-
-  
-  
+    sepolia: getChainConfig("sepolia"),
+    holesky: getChainConfig("holesky"),
   },
   paths: {
     artifacts: "./artifacts",
@@ -146,7 +141,6 @@ const config = {
         runs: 200,
       },
       viaIR: true,
-
     },
   },
   typechain: {
@@ -154,11 +148,8 @@ const config = {
     target: "ethers-v5",
   },
   sourcify: {
-    enabled: false
+    enabled: false,
   },
-  
 };
 
 module.exports = config;
-
-

@@ -15,7 +15,7 @@ async function main(){
     await project.waitForDeployment();
 
     console.log(`Project contract deployed to : ${await project.getAddress()}`);
-}
+
 
 main()
      .then(()=> process.exit(0))
