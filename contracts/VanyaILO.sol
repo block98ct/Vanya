@@ -159,6 +159,41 @@ contract VanyaILO is
     /**
      * Buy tokens during the presale
      */
+    // function preSaleBuy(
+    //     uint256 _saleType
+    // ) public payable whenNotPaused nonReentrant {
+    //     require(_saleType == 0 || _saleType == 1, "Invalid sale type");
+    //     uint256 _saleId = getSaleIdByType(_saleType);
+    //     require(isActive(_saleId), "Sale is not active");
+    //     require(presaleActive, "Presale is OFF");
+    //     require(msg.value > 0, "Invalid amount");
+
+    //     SaleDetail memory detail = salesDetailMap[_saleId];
+    //     UserToken memory userToken = userTokenMap[_saleId][_msgSender()];
+
+    //     uint256 _tokens = calculateToken(msg.value, detail.rate);
+    //     require(
+    //         _tokens >= detail.minBound && _tokens <= initialTokens,
+    //         "Invalid token amount"
+    //     );
+
+    //     userToken.saleRound = _saleId;
+    //     userToken.createdOn = block.timestamp;
+    //     userToken.lastClaimedTime = block.timestamp;
+    //     userToken.tokensPurchased += _tokens;
+    //     userToken.remainingTokens += _tokens;
+
+    //     emit BoughtTokens(msg.sender, _tokens, _saleId);
+    //     detail.tokenSold += _tokens;
+    //     detail.raisedIn += msg.value;
+    //     initialTokens -= _tokens;
+    //     salesDetailMap[_saleId] = detail;
+    //     userTokenMap[_saleId][_msgSender()] = userToken;
+    //     payable(owner()).transfer(msg.value);
+    // }
+
+    event Debug(string message, uint256 value);
+
     function preSaleBuy(
         uint256 _saleType
     ) public payable whenNotPaused nonReentrant {
@@ -172,6 +207,10 @@ contract VanyaILO is
         UserToken memory userToken = userTokenMap[_saleId][_msgSender()];
 
         uint256 _tokens = calculateToken(msg.value, detail.rate);
+        emit Debug("Tokens calculated", _tokens);
+        emit Debug("Minimum bound", detail.minBound);
+        emit Debug("Initial tokens", initialTokens);
+
         require(
             _tokens >= detail.minBound && _tokens <= initialTokens,
             "Invalid token amount"
@@ -257,7 +296,7 @@ contract VanyaILO is
     /**
      * Withdraw ETH from the contract
      */
-    function withdrawETH(address admin) external onlyOwner { 
+    function withdrawETH(address admin) external onlyOwner {
         payable(admin).transfer(address(this).balance);
     }
 

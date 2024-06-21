@@ -10,11 +10,11 @@ const pinata = new pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECR
 //Function to upload an image to Pinata
 async function uploadImage() {
   try {
-    const stream = fs.createReadStream('../images/1.jpg');
+    const stream = fs.createReadStream('../images/earthOnHand.jpg');
     const result = await pinata.pinFileToIPFS(stream, {
       wrapWithDirectory: false,
       pinataMetadata: {
-        name: '1.jpg',
+        name: 'treeInHand.jpg',
       },
     })
    // https://ipfs.io/ipfs/QmdUYhyvAGqVuM1DwQxsAFH7b9hVe2qnUL4CnmgkjZ4PiS
@@ -25,11 +25,10 @@ async function uploadImage() {
   }
 }
 
-
-// uploadImage();
+//uploadImage();   //QmP91vZMKMMeE9pzZBfVGGUeZvGKYJ5p3RLwS9D2M79Jsb
 
 const jsonData = {
-  "name": "Project Report #123",
+  "name": "Certificate",
   "description": "yearly report of data",
   "attributes": [
     {
@@ -70,16 +69,20 @@ const jsonData = {
       "value": 150
     }
   ],
-  "image": "https://ipfs.io/ipfs/QmdUYhyvAGqVuM1DwQxsAFH7b9hVe2qnUL4CnmgkjZ4PiS"
+  "image": "https://gateway.pinata.cloud/ipfs/QmP91vZMKMMeE9pzZBfVGGUeZvGKYJ5p3RLwS9D2M79Jsb"
 }
 
 //QmPDyqVomXZ7ekkV1dhStxKG9P4pnWxPn61XsEGDsufLNe
 //Qma7EcPSmBaUMPGhWXj2gPiipitS7GE542nxuBoEp7SyvX
 //https://gateway.pinata.cloud/ipfs/"CID Hash"
 
- pinata.pinJSONToIPFS(jsonData).then((result) => {
-    console.log('Successfully uploaded metadata to Pinata!');
-    console.log('IPFS Hash (CID):', result.IpfsHash);
-  }).catch((error) => {
-    console.error('Error uploading metadata to Pinata:', error);
-  });
+//  pinata.pinJSONToIPFS(jsonData).then((result) => {
+//     console.log('Successfully uploaded metadata to Pinata!');
+//     console.log('IPFS Hash (CID):', result.IpfsHash);
+//   }).catch((error) => {
+//     console.error('Error uploading metadata to Pinata:', error);
+//   });
+
+
+  // QmRJy5pqVvXiPRVRfi4n46PvWryMSUeeJktx92ghzziRns
+  // QmdbtsLP3hLRHQTmRjkNtYVnSTHYCCXkmHBjfzxvMueAGP

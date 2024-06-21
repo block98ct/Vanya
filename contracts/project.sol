@@ -16,13 +16,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 
-contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable, ERC721URIStorageUpgradeable {
+contract ProjectContract is Initializable, OwnableUpgradeable {
 
     // Upgradeability: Initialize function with an argument for the initial owner address
     function initialize(address initialOwner) public initializer {
         __Ownable_init(initialOwner);
-        __ERC721_init("ProjectCertificate", "PC");
-        __ERC721URIStorage_init();
     }
 
     uint256 private projectId;
@@ -156,29 +154,5 @@ contract ProjectContract is Initializable, OwnableUpgradeable, ERC721Upgradeable
         emit ProjectDataModified(_projectId);
     }
 
-    function issueCertificate(address to, uint256 _projectId, string memory uri) public onlyOwner {
-        uint256 tokenId = _projectId; // You can customize the tokenId based on your requirements
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
-        emit CertificateIssued(to, tokenId);
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        virtual
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-        returns (string memory)
-    {
-        return ERC721URIStorageUpgradeable.tokenURI(tokenId);
-    }
+ 
 }
