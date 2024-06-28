@@ -85,16 +85,16 @@ const config = {
       sepolia: process.env.ETHERSCAN_API_KEY,
       holesky: process.env.ETHERSCAN_API_KEY,
     },
-    customChains: [
-      {
-        network: "polygon-amoy",
-        chainId: 80002,
-        urls: {
-          apiURL: `https://api-amoy.polygonscan.com/api`,
-          browserURL: `https://polygonscan.com/`,
-        },
-      },
-    ],
+    // customChains: [
+    //   {
+    //     network: "polygon-amoy",
+    //     chainId: 80002,
+    //     urls: {
+    //       apiURL: `https://api-amoy.polygonscan.com/api`,
+    //       browserURL: `https://polygonscan.com/`,
+    //     },
+    //   },
+    // ],
   },
   gasReporter: {
     currency: "USD",

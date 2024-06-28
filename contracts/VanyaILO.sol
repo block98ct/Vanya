@@ -47,7 +47,7 @@ contract VanyaILO is
 
     mapping(uint256 => SaleDetail) public salesDetailMap;
     mapping(uint256 => mapping(address => UserToken)) public userTokenMap;
-    mapping(uint256 => bool) internal saleIdMap;
+    mapping(uint256 => bool) public saleIdMap;
 
     event BoughtTokens(address indexed to, uint256 value, uint256 saleId);
     event SaleCreated(uint256 saleId);
@@ -88,7 +88,7 @@ contract VanyaILO is
 
     function getSaleIdByType(
         uint256 _saleType
-    ) internal view returns (uint256) {
+    ) public view returns (uint256) {
         return
             _saleType == 0 ? seedSaleId : (_saleType == 1 ? privateSaleId : 0);
     }
@@ -196,7 +196,7 @@ contract VanyaILO is
 
     function preSaleBuy(
         uint256 _saleType
-    ) public payable whenNotPaused nonReentrant {
+    ) public payable whenNotPaused nonReentrant { 
         require(_saleType == 0 || _saleType == 1, "Invalid sale type");
         uint256 _saleId = getSaleIdByType(_saleType);
         require(isActive(_saleId), "Sale is not active");
@@ -240,6 +240,8 @@ contract VanyaILO is
         uint256 currentTime,
         uint256 _saleId
     ) public view returns (uint256) {
+            require(currentTime >= lastClaimedTime, "Current time must be greater than or equal to last claimed time");
+
         uint256 vestingDuration = currentTime - lastClaimedTime;
         uint256 totalVestingDuration = VESTING_PERIOD;
 
@@ -265,6 +267,7 @@ contract VanyaILO is
         UserToken memory utoken = userTokenMap[_saleId][_msgSender()];
         require(utoken.saleRound == _saleId, "Not purchase data");
         require(utoken.remainingTokens != 0, "No tokens left");
+
 
         uint256 claimedOn = utoken.lastClaimedTime == utoken.createdOn
             ? utoken.createdOn
