@@ -9,25 +9,25 @@ async function main(){
     
 
     // TOKEN CONTRACT
-    const Token = await ethers.getContractFactory("Vanya")   // 0x4b40736271f01a0a5707cbd9Bb0eb7c7cdF254d8
-    const token = await Token.deploy(deployer.address)
-    await token.waitForDeployment()
-    console.log(`Token contract deployed to : ${await token.getAddress()}`);
+    // const Token = await ethers.getContractFactory("Vanya")   // 0x4b40736271f01a0a5707cbd9Bb0eb7c7cdF254d8
+    // const token = await Token.deploy(deployer.address)
+    // await token.waitForDeployment()
+    // console.log(`Token contract deployed to : ${await token.getAddress()}`);
     
 
     // STORAGE CONTRACT
-    // const Storage = await ethers.getContractFactory("StorageContract")   // 0xcB15d729a91Df72b02D0E8F4EAA0C805dD7a0FeF 0xc48d7120623C66A36654c36F77B6796ea9A64540
-    // const storage = await upgrades.deployProxy(Storage, [])              //  0xc76F5C194AB0B2C6CE3A1f8891AC9580B4356cfC
-    // await storage.waitForDeployment();                                  // 0x5aBE4e5d7C234A0f28aEF73F574A05b70248d867  0xB2B1e1ac321fa893f51CC6E6a2599c6023AaED48
-    // console.log(`Storage contract deployed to : ${await storage.getAddress()}`);
+    const Storage = await ethers.getContractFactory("StorageContract")   // 0xcB15d729a91Df72b02D0E8F4EAA0C805dD7a0FeF 0xc48d7120623C66A36654c36F77B6796ea9A64540
+    const storage = await upgrades.deployProxy(Storage, [])              //  0xc76F5C194AB0B2C6CE3A1f8891AC9580B4356cfC
+    await storage.waitForDeployment();                                  // 0x5aBE4e5d7C234A0f28aEF73F574A05b70248d867  0xB2B1e1ac321fa893f51CC6E6a2599c6023AaED48
+    console.log(`Storage contract deployed to : ${await storage.getAddress()}`);
     
 
     // PROJECT CONTRACT
-    // const Project = await ethers.getContractFactory("ProjectContract")  // 0x24c2c425b5f7ED630AF153E744186B022A16E72e  0xAe9f333693f8e35B80Aa26d5cad394a24D811586
-    // const project = await upgrades.deployProxy(Project, [deployer.address]) // 0x8436d48D44efDa972375DF5E5b617Ab4C2017eBA  0xcfFb74476CfC850cc4AEDCA245cEdD87910863F4
-    // await project.waitForDeployment(); 
+    const Project = await ethers.getContractFactory("ProjectContract")  // 0x24c2c425b5f7ED630AF153E744186B022A16E72e  0xAe9f333693f8e35B80Aa26d5cad394a24D811586
+    const project = await upgrades.deployProxy(Project, [deployer.address]) // 0x8436d48D44efDa972375DF5E5b617Ab4C2017eBA  0xcfFb74476CfC850cc4AEDCA245cEdD87910863F4
+    await project.waitForDeployment(); 
 
-    // console.log(`Project contract deployed to : ${await project.getAddress()}`);   //0xFFDCF291BdB570D92afd7e41eDC94E5838d7294e 0xe29F6eD5B743F6368c4Dea92Ad67d01eB2d91869
+    console.log(`Project contract deployed to : ${await project.getAddress()}`);   //0xFFDCF291BdB570D92afd7e41eDC94E5838d7294e 0xe29F6eD5B743F6368c4Dea92Ad67d01eB2d91869
 
 }
 main()
@@ -66,13 +66,13 @@ main()
 // Storage contract deployed to:  
 
 //impl 0xa15f03A8b22E980B62f416aC39e639652a691520  proxy 0xD3CFB4e354912c7F18f7Ed82F9ee23Dca8b68108 
-//impl 0x0Bf702aDD8dAD990aDc35D9724d66BC0ed4C3799 proxy 0x0D2A56c9C4CF20F62c18A88111CfE2434163bC55
+//impl 0x0Bf702aDD8dAD990aDc35D9724d66BC0ed4C3799  proxy 0x0D2A56c9C4CF20F62c18A88111CfE2434163bC55
 //impl 0x111f5737BbB9e5E476b10d1f1c462c93ea95d739  proxy 0xF55acdf7768Bb90BE7d29068CEEd5B0578F0424E
 
 
 // Project contract deployed to :  
 //impl 0xe29F6eD5B743F6368c4Dea92Ad67d01eB2d91869  proxy 0xC4fa11FDDd34e8Ba71F01A1a654c0C13345B363A 
-//impl 0xc728611b4459A49BCd55282C2938C4089cB2F422 proxy 0x674aE49f9499764E3e516d3A3a22Fa60388Cc30E
+//impl 0xc728611b4459A49BCd55282C2938C4089cB2F422  proxy 0x674aE49f9499764E3e516d3A3a22Fa60388Cc30E
 //impl 0x858fdfA82Df713dD65c3D1f73402A6AC7CEeDe06  proxy 0xD5083509Aa6f38D63b18de088E41AE196F261C2F
 
 
