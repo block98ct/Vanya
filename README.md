@@ -1,13 +1,46 @@
-# Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+#  Vanya Project
 
-Try running some of the following tasks:
+This are the vanya smart contracts deployed on polygon network
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
+
+
+# Run this command
+
+```bash
+ npm install
 ```
+
+
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+
+`MNEMONIC`
+`POLYGONSCAN_API_KEY`
+`DEPLOY_NETWORK`
+`REPORT_GAS`
+`MAINNET_PRIVATE_KEY`
+`INFURA_API_KEY`
+
+`ETHERSCAN_API_KEY`
+`NEAR_BLOCK_MAINNET_API_KEY`
+`NEAR_BLOCK_TESTNET_API_KEY`
+
+
+`PINATA_API_KEY`
+`PINATA_SECRET_KEY`
+`PINATA_JWT`
+
+
+
+# Run this command to deploy smart contract
+
+```bash
+ 
+ npx hardhat run --network "network Name" scripts/deploy_storage.ts
+```
+
