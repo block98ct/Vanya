@@ -21,8 +21,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
 
     // Struct to represent project data
     struct ProjectData {
-        string latitude;
-        string longitude;
+        string location;
         string projectAddress;
         string area;
         string ndvi;
@@ -34,6 +33,8 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
         string projectType;
         string carbonCredits;
         string amountWorth;
+        uint256 version;
+        string  cycle;
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -66,8 +67,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
 
     // Function to add project data
     function addProjectData(
-        string memory _latitude,
-        string memory _longitude,
+        string memory _location,
         string memory _projectAddress,
         string memory _area,
         string memory _ndvi,
@@ -79,14 +79,13 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
         string memory _projectType,
         string memory _carbonCredits,
         string memory _amountWorth
-    ) external {
+    )  external {
         projectId++;
         require(projectId > 0, "Project ID must be greater than zero");
 
         uint256 timestamp = block.timestamp;
         projectData[projectId][timestamp] = ProjectData(
-            _latitude,
-            _longitude,
+            _location,
             _projectAddress,
             _area,
             _ndvi,
@@ -98,6 +97,8 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
             _projectType,
             _carbonCredits,
             _amountWorth,
+             0,
+             "annual",
             timestamp,
             0
         );
@@ -106,15 +107,14 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
         ndviData[timestamp] = _ndvi;
 
         projectCreatedAt[projectId] = block.timestamp;
-
+        // projectTimestamps[]
         emit ProjectDataAdded(projectId);
     }
 
     // Function to edit project data (only owner)
     function updateProjectData(
         uint256 _projectId,
-        string memory _latitude,
-        string memory _longitude,
+        string memory _location,
         string memory _projectAddress,
         string memory _area,
         string memory _ndvi,
@@ -125,7 +125,9 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
         string memory _geoJsonLink,
         string memory _projectType,
         string memory _carbonCredits,
-        string memory _amountWorth
+        string memory _amountWorth,
+        string memory _cycle,
+        uint256 _version
     ) external onlyOwner {
         require(_projectId > 0, "Project ID must be greater than zero");
         require(projectCreatedAt[_projectId] > 0, "Project does not exists");
@@ -134,8 +136,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
         uint256 timestamp = block.timestamp;
 
         projectData[_projectId][timestamp] = ProjectData(
-            _latitude,
-            _longitude,
+            _location,
             _projectAddress,
             _area,
             _ndvi,
@@ -147,6 +148,8 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
             _projectType,
             _carbonCredits,
             _amountWorth,
+            _version,
+            _cycle,
             projectData[_projectId][createdAt].createdAt,
             timestamp
         );
@@ -171,4 +174,7 @@ contract ProjectContract is Initializable, OwnableUpgradeable {
     ) external view returns (ProjectData memory) {
         return projectData[_projectId][_timestamp];
     }
+
+
+
 }

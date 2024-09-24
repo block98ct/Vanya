@@ -23,11 +23,16 @@ contract StorageContract is
     ERC721Upgradeable,
     ERC721URIStorageUpgradeable
 {
-    function initialize() public initializer {
-        __Ownable_init(_msgSender());
+
+    address private preojectOwner;
+    function initialize(address intialOwner) public initializer {
+          preojectOwner = intialOwner;
+        __Ownable_init(intialOwner);
         __ERC721_init("ProjectCertificate", "PC");
         __ERC721URIStorage_init();
     }
+
+    uint256 private tokenId;
 
     // Mapping to store project contracts
     mapping(address => bool) public isProjectContract;
@@ -43,17 +48,16 @@ contract StorageContract is
     // Function to create a new project
     function createProject() public {
         ProjectContract newProject = new ProjectContract();
-        newProject.initialize(msg.sender);
+        newProject.initialize(preojectOwner);
         isProjectContract[address(newProject)] = true;
         emit ProjectCreated(address(newProject), msg.sender);
     }
 
     function issueCertificate(
         address to,
-        uint256 _projectId,
         string memory uri
     ) public onlyOwner {
-        uint256 tokenId = _projectId; // You can customize the tokenId based on your requirements
+        tokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
         emit CertificateIssued(to, tokenId);
@@ -71,7 +75,7 @@ contract StorageContract is
     }
 
     function tokenURI(
-        uint256 tokenId
+        uint256 _tokenId
     )
         public
         view
@@ -79,6 +83,6 @@ contract StorageContract is
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
         returns (string memory)
     {
-        return ERC721URIStorageUpgradeable.tokenURI(tokenId);
+        return ERC721URIStorageUpgradeable.tokenURI(_tokenId);
     }
 }

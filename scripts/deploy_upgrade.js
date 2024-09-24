@@ -17,7 +17,7 @@ async function main(){
 
     // STORAGE CONTRACT
     const Storage = await ethers.getContractFactory("StorageContract")   // 0xcB15d729a91Df72b02D0E8F4EAA0C805dD7a0FeF 0xc48d7120623C66A36654c36F77B6796ea9A64540
-    const storage = await upgrades.deployProxy(Storage, [])              //  0xc76F5C194AB0B2C6CE3A1f8891AC9580B4356cfC
+    const storage = await upgrades.deployProxy(Storage, [deployer.address])              //  0xc76F5C194AB0B2C6CE3A1f8891AC9580B4356cfC
     await storage.waitForDeployment();                                  // 0x5aBE4e5d7C234A0f28aEF73F574A05b70248d867  0xB2B1e1ac321fa893f51CC6E6a2599c6023AaED48
     console.log(`Storage contract deployed to : ${await storage.getAddress()}`);
     
